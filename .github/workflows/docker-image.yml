@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: |
+        docker run --rm -it -v "$(pwd)":/home/rust/src rust:alpine3.18
+        cd /home/rust/src/
+        ls -lah
+        apk update
+        apk add --no-cache musl-dev openssl-dev openssl-libs-static fuse3-static fuse3-dev fuse3
+        OPENSSL_STATIC=1 cargo build --release
+        ls -lah ./target/release/
+    - name: Upload binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: onedrive-fuse-musl
+        path: target/target/release/onedrive-fuse
