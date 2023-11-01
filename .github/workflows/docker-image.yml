@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: rust:alpine3.18
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
       env:
         NODE_ENV: development
       ports:
