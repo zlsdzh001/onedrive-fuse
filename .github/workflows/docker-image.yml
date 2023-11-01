@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 jobs:
   build:
-    runs-on: rust-alpine
+    runs-on: ubuntu-latest
     container:
       image: rust:alpine3.18
       credentials:
